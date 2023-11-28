@@ -1,0 +1,19 @@
+copy_data1 = data.copy()
+copy_data1.fillna(0, inplace=True)
+
+from sklearn.preprocessing import LabelEncoder
+label_encoder = LabelEncoder()
+for column in copy_data1.columns:
+    if copy_data1[column].dtype == 'object':
+        copy_data1[column] = label_encoder.fit_transform(copy_data1[column])
+
+def min_max_normalize(column):
+    min_val = column.min()
+    max_val = column.max()
+    normalized_column = (column - min_val) / (max_val - min_val)
+    return normalized_column
+
+copy_data1["Price"]=min_max_normalize(copy_data1["Price"]);
+copy_data1["Age"]=min_max_normalize(copy_data1["Age"]);
+copy_data1["KM"]=min_max_normalize(copy_data1["KM"]);
+display(copy_data1)

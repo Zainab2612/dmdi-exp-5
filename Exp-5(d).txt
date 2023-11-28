@@ -1,0 +1,19 @@
+copy_data2 = data.copy()
+copy_data2.fillna(0, inplace=True)
+
+from sklearn.preprocessing import LabelEncoder
+label_encoder = LabelEncoder()
+for column in copy_data2.columns:
+    if copy_data2[column].dtype == 'object':
+        copy_data2[column] = label_encoder.fit_transform(copy_data2[column])
+
+def decimal_scaling(column):
+    max_val = column.max()
+    j = len(str(max_val))
+    normalized_column = column / (10 ** j)
+    return normalized_column
+
+copy_data2["Price"]=decimal_scaling(copy_data2["Price"]);
+copy_data2["Age"]=decimal_scaling(copy_data2["Age"]);
+copy_data2["KM"]=decimal_scaling(copy_data2["KM"]);
+display(copy_data2)
